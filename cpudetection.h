@@ -128,7 +128,7 @@ struct EBX07H_00H{
 };
 
 struct ECX07H_00H {
-	unsigned int perfetchwt1:1;
+	unsigned int prefetchwt1:1;
 	unsigned int avx512_vbmi:1;
 	unsigned int umip:1;
 	unsigned int pku:1;

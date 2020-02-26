@@ -253,6 +253,7 @@ void printcpufeatures (int maxcpuid,int exmaxcpuid){
 		printf("XOP\t\t|%i\n",cpufeat8.xop );
 		printf("TBM\t\t|%i\n",cpufeat8.tbm );
 		printf("FMA4\t\t|%i\n",cpufeat8.fma4 );
+		printf("SSE4A\t\t|%i\n",cpufeat8.sse4a );
 	}
 	printf("-------------------------------------------\n");
 	printf("Intel single instructions supporting:\n");
@@ -265,6 +266,13 @@ void printcpufeatures (int maxcpuid,int exmaxcpuid){
 		printf("MOVBE\t\t|%i\n",cpufeat1.movbe );
 		printf("POPCNT\t\t|%i\n",cpufeat1.popcnt);
 
+	}
+	if (maxcpuid>=7){
+		printf("ERMS\t\t|%i\n",cpufeat3.erms);
+		printf("INVPCID\t\t|%i\n",cpufeat3.invpcid);
+		printf("CLWB\t\t|%i\n",cpufeat3.clwb);
+		printf("PCOMMIT\t\t|%i\n",cpufeat3.pcommit);
+		printf("CLFLUSHOPT\t|%i\n",cpufeat3.cflushopt);
 	}
 	printf("-------------------------------------------\n");
 	printf("CMPXCHG Instructions supporting:\n");
@@ -283,6 +291,7 @@ void printcpufeatures (int maxcpuid,int exmaxcpuid){
 		printf("VAES\t\t|%i\n",cpufeat4.vaes );
 		printf("VCLMUL\t\t|%i\n",cpufeat4.vpclmulqdq );
 		printf("RDSEED\t\t|%i\n",cpufeat3.rdseed);
+		printf("SHA\t\t|%i\n",cpufeat3.sha);
 	}
 	printf("-------------------------------------------\n");
 	printf("Energy saving Instructions set supporting:\n");
@@ -296,6 +305,9 @@ void printcpufeatures (int maxcpuid,int exmaxcpuid){
 		printf("DS\t\t|%i\n",cpufeat2.ds);
 		printf("DTES64\t\t|%i\n",cpufeat1.dtes64);
 		printf("DS-CPL\t\t|%i\n",cpufeat1.ds_cpl);
+	}
+	if (maxcpuid>=7){
+		printf("INTEL-PT\t|%i\n",cpufeat3.intel_pt);
 	}
 	printf("-------------------------------------------\n");
 	printf("Thermal control supporting:\n");
@@ -318,6 +330,13 @@ void printcpufeatures (int maxcpuid,int exmaxcpuid){
 		printf("PAT\t\t|%i\n",cpufeat2.pat);
 		printf("PSE\t\t|%i\n",cpufeat2.pse);
 		printf("PSE-36\t\t|%i\n",cpufeat2.pse36);
+	}
+	if (maxcpuid>=7){
+		printf("TSX-HWL_EXT\t|%i\n",cpufeat3.hle);
+		printf("TSX-RTM\t\t|%i\n",cpufeat3.rtm);
+	}
+	if (exmaxcpuid>=0x80000001){
+		printf("1GB_PAGE\t|%i\n",cpufeat7.pdpe1gb );
 	}
 	printf("-------------------------------------------\n");
 	printf("Timestamp Instructions set supporting:\n");
@@ -347,6 +366,14 @@ void printcpufeatures (int maxcpuid,int exmaxcpuid){
 		printf("PCID\t\t|%i\n",cpufeat1.pcid);
 		printf("DCA\t\t|%i\n",cpufeat1.dca);
 		printf("Hypervisor mode\t|%i\n",cpufeat1.raz );
+	}
+	if (maxcpuid>=7){
+		printf("UMIP\t\t|%i\n",cpufeat4.umip);
+		printf("SMAP\t\t|%i\n",cpufeat3.smap);
+		printf("SMEP\t\t|%i\n",cpufeat3.smep);
+		printf("PQE\t\t|%i\n",cpufeat3.pqe);
+		printf("PQM\t\t|%i\n",cpufeat3.pqm);
+		printf("PREFETCHWT1\t|%i\n",cpufeat4.prefetchwt1);
 	}
 	printf("-------------------------------------------\n");
 }
@@ -439,22 +466,51 @@ void printcpudescr(int fam,int mod, int type ){
 		case 3:
 		switch (type) {
 			case 0:
-			printf("Intel 386 DX\n");
+			printf("Intel386 DX\n");
 			break;
 			case 2:
-			printf("Intel 386 SX/CX/EX\n");
+			printf("Intel386 SX/CX/EX\n");
 			break;
 			case 4:
-			printf("Intel 386 SL\n");
+			printf("Intel386 SL\n");
 			break;
 			default:
-			printf("Intel 386\n");
+			printf("Intel386-like\n");
 			break;
 		}
 		break;
 		case 4:
+		switch (mod) {
+			case 1:
+			printf("Intel486 DX\n");
+			break;
+			case 2:
+			printf("Intel486 SX\n");
+			break;
+			case 3:
+			printf("Intel487/DX2/DX2 OverDrive\n");
+			break;
+			case 4:
+			printf("Intel486 SL\n");
+			break;
+			case 5:
+			printf("IntelSX2\n");
+			break;
+			case 7:
+			printf("IntelDX2 Write-Back Enhanced\n");
+			break;
+			case 8:
+			printf("Intel/DX4/DX4 OverDrive\n");
+			break;
+			default:
+			printf("Intel486-like\n");
+			break;
 
-		break;		
+
+
+
+		}
+		break;
 		default:
 		break;
 	}
