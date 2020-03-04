@@ -249,6 +249,5 @@ struct EDX07H_00H getcpufeatures5();
 struct EAX07H_01H getcpufeatures6();
 struct EDX801H getcpufeatures7();
 struct ECX801H getcpufeatures8();
-void printcpudescr(int fam,int mod, int type );
 int cpudetectionmain();
 #endif /* end of include guard:  */

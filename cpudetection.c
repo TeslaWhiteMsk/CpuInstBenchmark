@@ -49,7 +49,6 @@ void printfammodstep(){
 	unsigned int model=(fmsreg.extmodel<<4) +fmsreg.model;
 	unsigned int family=fmsreg.extfamily+fmsreg.family;
 	printf("Steping = 0x%Xh;\tModel= %u\tFamily=%u\n",steping, model,family);
-	printcpudescr(family,model,type);
 	return;
 }
 
@@ -459,59 +458,4 @@ struct ECX801H getcpufeatures8(){
 		"movq %rcx, %rax\n"
 		"popq %rbx\n"
 	);
-}
-
-void printcpudescr(int fam,int mod, int type ){
-	switch (fam) {
-		case 3:
-		switch (type) {
-			case 0:
-			printf("Intel386 DX\n");
-			break;
-			case 2:
-			printf("Intel386 SX/CX/EX\n");
-			break;
-			case 4:
-			printf("Intel386 SL\n");
-			break;
-			default:
-			printf("Intel386-like\n");
-			break;
-		}
-		break;
-		case 4:
-		switch (mod) {
-			case 1:
-			printf("Intel486 DX\n");
-			break;
-			case 2:
-			printf("Intel486 SX\n");
-			break;
-			case 3:
-			printf("Intel487/DX2/DX2 OverDrive\n");
-			break;
-			case 4:
-			printf("Intel486 SL\n");
-			break;
-			case 5:
-			printf("IntelSX2\n");
-			break;
-			case 7:
-			printf("IntelDX2 Write-Back Enhanced\n");
-			break;
-			case 8:
-			printf("Intel/DX4/DX4 OverDrive\n");
-			break;
-			default:
-			printf("Intel486-like\n");
-			break;
-
-
-
-
-		}
-		break;
-		default:
-		break;
-	}
 }
