@@ -237,6 +237,26 @@ struct ECX801H{
 	unsigned:3;
 };
 
+struct cpufeatretdata{
+	unsigned int x86:1;
+	unsigned int x87:1;
+	unsigned int mmx:1;
+	unsigned int mmx_ext:1;
+	unsigned int _3dnow:1;
+	unsigned int _3dnow_ext:1;
+	unsigned int xop:1;
+	unsigned int tbm:1;
+	unsigned int fma4:1;
+	unsigned int sse:1;
+	unsigned int sse2:1;
+	unsigned int sse3:1;
+	unsigned int ssse3:1;
+	unsigned int sse41:1;
+	unsigned int sse42:1;
+	unsigned int sse4A:1;
+	unsigned int tsc:1;
+};
+
 int cpuidcheck(); //(asm)проверка поддержки CPUID (нужна для удобства портирования, в amd64 бесполезна)
 char* cpuvendor(char* cpuvend); //(asm) Вывод названия производителя процессора
 int maxcpuidval ();// (asm)  Максимальное значение базовой функции CPUID
@@ -247,7 +267,7 @@ char* brandstr (char* a);//(asm) Генерация строки с назван
 struct EAX01H fammodstep();//(asm)Генерация структуры с моделью семейством и степпингом проца
 void printindxcores(); //Печать индекса, числа ядер и прочих параметров (пока что не работает как надо)
 struct EBX01H getindxcores();//(asm) Генерация структуры с индексом, числом ядер и прочими параметрами
-void printcpufeatures (int maxcpuid,int exmaxcpuid); //Печать возможностей процессора
+struct cpufeatretdata printcpufeatures (int maxcpuid,int exmaxcpuid); //Печать возможностей процессора
 struct ECX01H getcpufeatures1();//(asm) Генерация первой части битового поля CPU Features
 struct EDX01H getcpufeatures2();//(asm) Генерация второй части битового поля CPU Features
 struct EBX07H_00H getcpufeatures3();
@@ -263,5 +283,5 @@ struct REG02H getcacheregeax();
 struct REG02H getcacheregebx();
 struct REG02H getcacheregecx();
 struct REG02H getcacheregedx();
-int cpudetectionmain();
+struct cpufeatretdata cpudetectionmain();
 #endif /* end of include guard:  */

@@ -6,7 +6,7 @@
 
 
 
-int cpudetectionmain(){
+struct cpufeatretdata cpudetectionmain(){
 	int cpuflag =cpuidcheck();
 	if (cpuflag==1) {
 		printf("CPUID is  suported!\n");
@@ -39,9 +39,9 @@ int cpudetectionmain(){
 	if (exmaxcpuid>=0x80000004){
 		printcpubrand();
 	}
-	printcpufeatures(maxcpuid,exmaxcpuid);
+	struct cpufeatretdata output= printcpufeatures(maxcpuid,exmaxcpuid);
 
-	return 0;
+	return output;
 }
 
 void printfammodstep(){
@@ -537,7 +537,7 @@ struct REG02H getcacheregedx(){
 	);
 }
 
-void printcpufeatures (int maxcpuid,int exmaxcpuid){
+struct cpufeatretdata printcpufeatures (int maxcpuid,int exmaxcpuid){
 	struct ECX01H cpufeat1;
 	struct EDX01H cpufeat2;
 	struct EBX07H_00H cpufeat3;
@@ -560,7 +560,46 @@ void printcpufeatures (int maxcpuid,int exmaxcpuid){
 		cpufeat7=getcpufeatures7();
 		cpufeat8=getcpufeatures8();
 	}
-
+	struct cpufeatretdata result;
+	result.x86=1;
+	if (maxcpuid>=1){
+		result.x87=cpufeat2.fpu;
+		result.mmx=cpufeat2.mmx;
+		result.sse=cpufeat2.sse;
+		result.sse2=cpufeat2.sse2;
+		result.sse3=cpufeat1.sse3;
+		result.ssse3=cpufeat1.sse3_sup;
+		result.sse41=cpufeat1.sse41;
+		result.sse42=cpufeat1.sse42;
+		result.tsc=cpufeat2.tsc;
+	}else{
+		result.x87=0;
+		result.mmx=0;
+		result.sse=0;
+		result.sse2=0;
+		result.sse3=0;
+		result.ssse3=0;
+		result.sse41=0;
+		result.sse42=0;
+		result.tsc=0;
+	}
+	if (exmaxcpuid>=0x80000001){
+		result.mmx_ext = cpufeat7.mmxext;
+		result._3dnow = cpufeat7._3dnow;
+		result._3dnow_ext=cpufeat7._3dnowext;
+		result.xop=cpufeat8.xop;
+		result.tbm=cpufeat8.tbm;
+		result.fma4=cpufeat8.fma4;
+		result.sse4A=cpufeat8.sse4a;
+	}else{
+		result.mmx_ext = 0;
+		result._3dnow = 0;
+		result._3dnow_ext=0;
+		result.xop=0;
+		result.tbm=0;
+		result.fma4=0;
+		result.sse4A=0;
+	}
 
 	printf("-------------------------------------------\n");
 	printf("Intel Instructions set supporting:\n");
@@ -732,6 +771,7 @@ void printcpufeatures (int maxcpuid,int exmaxcpuid){
 		printf("PREFETCHWT1\t|%i\n",cpufeat4.prefetchwt1);
 	}
 	printf("-------------------------------------------\n");
+	return result;
 }
 
 struct ECX01H getcpufeatures1(){
