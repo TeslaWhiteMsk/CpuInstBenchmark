@@ -92,6 +92,13 @@ struct EDX01H {
 
 };
 
+struct REG02H{
+	unsigned int cachereg1:8;
+	unsigned int cachereg2:8;
+	unsigned int cachereg3:8;
+	unsigned int cachereg4:8;
+};
+
 struct EBX07H_00H{
 	unsigned int fsgsbase:1;
 	unsigned int IA32_TSC_ADJUST:1;
@@ -249,5 +256,12 @@ struct EDX07H_00H getcpufeatures5();
 struct EAX07H_01H getcpufeatures6();
 struct EDX801H getcpufeatures7();
 struct ECX801H getcpufeatures8();
+void printcache();
+void printcachedescr();
+void decodecachedescr (int descr);
+struct REG02H getcacheregeax();
+struct REG02H getcacheregebx();
+struct REG02H getcacheregecx();
+struct REG02H getcacheregedx();
 int cpudetectionmain();
 #endif /* end of include guard:  */

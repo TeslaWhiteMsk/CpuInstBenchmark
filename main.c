@@ -3,7 +3,7 @@
 #include "cpudetection.h"
 
 int main(){
-	printf("CPU Instructions Benchmark 0.0.4 by TeslaWhiteMsk\n");
+	printf("CPU Instructions Benchmark 0.0.5 (amd64) by TeslaWhiteMsk\n");
 	int cpuinstset= cpudetectionmain();
 
 	return 0;
